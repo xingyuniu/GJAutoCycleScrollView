@@ -36,9 +36,9 @@ NSString * const itemID = @"itemID";
 
 @property (nonatomic, weak) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, weak) UICollectionView *collectionView;
-@property (nonatomic, weak) UIPageControl *pageControl;
 @property (nonatomic, assign) NSInteger itemCount;
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) BOOL timerIsStop;
 
 @end
 
@@ -48,11 +48,17 @@ NSString * const itemID = @"itemID";
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _timeIntervalForAutoScroll = 3.0;
         [self configureImageView];
         [self configurePageControl];
         [self configureTimer];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    NSLog(@"挂了");
 }
 
 - (void)configurePageControl
@@ -64,9 +70,9 @@ NSString * const itemID = @"itemID";
 
 - (void)configureTimer
 {
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-    _timer = timer;
+//    NSTimer *timer =[NSTimer timerWithTimeInterval:_timeIntervalForAutoScroll target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:_timeIntervalForAutoScroll target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
+//    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)configureImageView
@@ -117,6 +123,35 @@ NSString * const itemID = @"itemID";
     }
 }
 
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    if (!_timerIsStop) {
+        NSLog(@"关闭");
+        [self stopTimer];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (_timerIsStop) {
+        NSLog(@"开启");
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(activeTimer) object:nil];
+        [self performSelector:@selector(activeTimer) withObject:nil afterDelay:_timeIntervalForAutoScroll];
+    }
+}
+
+- (void)activeTimer
+{
+    _timerIsStop = NO;
+    [_timer setFireDate:[NSDate distantPast]];
+}
+
+- (void)stopTimer
+{
+    _timerIsStop = YES;
+    [_timer setFireDate:[NSDate distantFuture]];
+}
+
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     if (newSuperview == nil) {
@@ -129,14 +164,26 @@ NSString * const itemID = @"itemID";
 {
     [_collectionView reloadData];
     
-    [self performSelector:@selector(scrollToMiddle) withObject:self afterDelay:0.1];
+    [self performSelector:@selector(setupInitLocation) withObject:self afterDelay:0.1];
 }
 
 - (void)scrollImage
 {
-    
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_itemCount * 0.5 inSection:0];
-//    [_collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+    if (_itemCount == 0) {
+        return;
+    }
+    NSInteger currentPage = _collectionView.contentOffset.x / _flowLayout.itemSize.width;
+    NSInteger desPage = currentPage + 1;
+    if (desPage == _itemCount) {
+        [self scrollToMiddle];
+    }
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:desPage inSection:0];
+    [_collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+}
+
+- (void)setupInitLocation
+{
+    [self scrollToMiddle];
 }
 
 - (void)scrollToMiddle

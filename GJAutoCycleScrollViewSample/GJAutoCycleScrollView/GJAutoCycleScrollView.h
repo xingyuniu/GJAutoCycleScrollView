@@ -51,6 +51,21 @@
 @interface GJAutoCycleScrollView : UIView
 
 /**
+ *  你可以自定义位置,默认在底部中间,默认显示,如不需要可自行隐藏
+ */
+@property (nonatomic, weak, readonly) UIPageControl *pageControl;
+/**
+ *  自动滚动的时间间隔,默认为3秒
+ */
+@property (nonatomic, assign) CGFloat timeIntervalForAutoScroll;
+
+/**
+ *  是否显示分页
+ *
+ *  @param show YES 显示，NO 如果不显示，会从父视图移除
+ */
+//- (void)showPageControl:(BOOL)show;
+/**
  *  刷新数据
  */
 - (void)reloadData;
