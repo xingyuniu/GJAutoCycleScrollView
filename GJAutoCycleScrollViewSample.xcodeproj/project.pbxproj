@@ -21,6 +21,7 @@
 		F2221BD51AF5D2E40035B8B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2221BB71AF5D2E40035B8B9 /* UIKit.framework */; };
 		F2221BDD1AF5D2E40035B8B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2221BDB1AF5D2E40035B8B9 /* InfoPlist.strings */; };
 		F2221BDF1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2221BDE1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests.m */; };
+		F2221BEB1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2221BEA1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		F2221BDA1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GJAutoCycleScrollViewSampleTests-Info.plist"; sourceTree = "<group>"; };
 		F2221BDC1AF5D2E40035B8B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F2221BDE1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GJAutoCycleScrollViewSampleTests.m; sourceTree = "<group>"; };
+		F2221BE91AF5D7AE0035B8B9 /* GJAutoCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJAutoCycleScrollView.h; sourceTree = "<group>"; };
+		F2221BEA1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJAutoCycleScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,7 @@
 		F2221BB91AF5D2E40035B8B9 /* GJAutoCycleScrollViewSample */ = {
 			isa = PBXGroup;
 			children = (
+				F2221BE81AF5D7870035B8B9 /* GJAutoCycleScrollView */,
 				F2221BC21AF5D2E40035B8B9 /* GJAppDelegate.h */,
 				F2221BC31AF5D2E40035B8B9 /* GJAppDelegate.m */,
 				F2221BC51AF5D2E40035B8B9 /* Main.storyboard */,
@@ -150,6 +154,15 @@
 				F2221BDB1AF5D2E40035B8B9 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F2221BE81AF5D7870035B8B9 /* GJAutoCycleScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				F2221BE91AF5D7AE0035B8B9 /* GJAutoCycleScrollView.h */,
+				F2221BEA1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m */,
+			);
+			path = GJAutoCycleScrollView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,6 +265,7 @@
 			files = (
 				F2221BC01AF5D2E40035B8B9 /* main.m in Sources */,
 				F2221BCA1AF5D2E40035B8B9 /* GJViewController.m in Sources */,
+				F2221BEB1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m in Sources */,
 				F2221BC41AF5D2E40035B8B9 /* GJAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
