@@ -19,7 +19,7 @@
 {
     [super viewDidLoad];
     
-    _imageNames = @[@"h1.jpg", @"h2.jpg", @"h3.jpg", @"h4.jpg", @"h1.jpg", @"h2.jpg", @"h3.jpg", @"h4.jpg"];
+    _imageNames = @[@"h1.jpg", @"h2.jpg", @"h3.jpg", @"h4.jpg"];
     
     GJAutoCycleScrollView *scrollView = [[GJAutoCycleScrollView alloc] init];
     scrollView.frame = CGRectMake(10, 100, 300, 200);
