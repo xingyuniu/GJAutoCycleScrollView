@@ -70,9 +70,8 @@ NSString * const itemID = @"itemID";
 
 - (void)configureTimer
 {
-//    NSTimer *timer =[NSTimer timerWithTimeInterval:_timeIntervalForAutoScroll target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
     _timer = [NSTimer scheduledTimerWithTimeInterval:_timeIntervalForAutoScroll target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
-//    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)configureImageView
@@ -96,8 +95,10 @@ NSString * const itemID = @"itemID";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    CGSize size = self.bounds.size;
     _collectionView.frame = self.bounds;
-    _flowLayout.itemSize = self.bounds.size;
+    _flowLayout.itemSize = size;
+    _pageControl.center = CGPointMake(size.width * 0.5, size.height - 15);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -123,10 +124,18 @@ NSString * const itemID = @"itemID";
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    int page = (int)(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5);
+    page %= (_itemCount / 100);
+    if (_pageControl.currentPage != page) {
+        _pageControl.currentPage = page;
+    }
+}
+
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {
     if (!_timerIsStop) {
-        NSLog(@"关闭");
         [self stopTimer];
     }
 }
@@ -134,7 +143,6 @@ NSString * const itemID = @"itemID";
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     if (_timerIsStop) {
-        NSLog(@"开启");
         [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(activeTimer) object:nil];
         [self performSelector:@selector(activeTimer) withObject:nil afterDelay:_timeIntervalForAutoScroll];
     }
@@ -183,6 +191,9 @@ NSString * const itemID = @"itemID";
 
 - (void)setupInitLocation
 {
+    // 设置pageControl的页数
+    _pageControl.numberOfPages = _itemCount / 100;
+    [_pageControl sizeToFit];
     [self scrollToMiddle];
 }
 
