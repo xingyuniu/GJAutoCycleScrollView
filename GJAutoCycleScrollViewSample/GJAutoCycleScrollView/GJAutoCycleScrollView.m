@@ -37,6 +37,7 @@ NSString * const itemID = @"itemID";
 @property (nonatomic, weak) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, weak) UICollectionView *collectionView;
 @property (nonatomic, assign) NSInteger itemCount;
+@property (nonatomic, assign) NSInteger dataCount;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) BOOL timerIsStop;
 
@@ -103,15 +104,15 @@ NSString * const itemID = @"itemID";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSInteger count = [_dataSource numberOfPagesInAutoCycleScrollView:self];
-    _itemCount = count * 100;
+    _dataCount = [_dataSource numberOfPagesInAutoCycleScrollView:self];
+    _itemCount = _dataCount * 100;
     return _itemCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GJImageItem *item = [collectionView dequeueReusableCellWithReuseIdentifier:itemID forIndexPath:indexPath];
-    NSInteger index = indexPath.item % (_itemCount / 100);
+    NSInteger index = indexPath.item % _dataCount;
     item.imageUrl = [_dataSource autoCycleScrollView:self imageUrlAtIndex:index];
     return item;
 }
@@ -119,7 +120,7 @@ NSString * const itemID = @"itemID";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_delegate respondsToSelector:@selector(autoCycleScrollView:didSelectPageAtIndex:)]) {
-        NSInteger index = indexPath.item % (_itemCount / 100);
+        NSInteger index = indexPath.item % _dataCount;
         [_delegate autoCycleScrollView:self didSelectPageAtIndex:index];
     }
 }
@@ -127,7 +128,7 @@ NSString * const itemID = @"itemID";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     int page = (int)(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5);
-    page %= (_itemCount / 100);
+    page %= _dataCount;
     if (_pageControl.currentPage != page) {
         _pageControl.currentPage = page;
     }
@@ -192,7 +193,7 @@ NSString * const itemID = @"itemID";
 - (void)setupInitLocation
 {
     // 设置pageControl的页数
-    _pageControl.numberOfPages = _itemCount / 100;
+    _pageControl.numberOfPages = _dataCount;
     [_pageControl sizeToFit];
     [self scrollToMiddle];
 }
