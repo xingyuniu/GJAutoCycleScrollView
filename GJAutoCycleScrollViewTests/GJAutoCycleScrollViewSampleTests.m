@@ -2,17 +2,17 @@
 //  GJAutoCycleScrollViewTests.m
 //  GJAutoCycleScrollViewTests
 //
-//  Created by imooc_gj on 15/5/3.
+//  Created by devgj on 15/5/3.
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface GJAutoCycleScrollViewTests : XCTestCase
+@interface GJAutoCycleScrollViewSampleTests : XCTestCase
 
 @end
 
-@implementation GJAutoCycleScrollViewTests
+@implementation GJAutoCycleScrollViewSampleTests
 
 - (void)setUp
 {
