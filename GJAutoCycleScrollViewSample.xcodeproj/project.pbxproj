@@ -22,6 +22,10 @@
 		F2221BDD1AF5D2E40035B8B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2221BDB1AF5D2E40035B8B9 /* InfoPlist.strings */; };
 		F2221BDF1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2221BDE1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests.m */; };
 		F2221BEB1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2221BEA1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m */; };
+		F2221BF01AF5F8D70035B8B9 /* h1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F2221BEC1AF5F8D70035B8B9 /* h1.jpg */; };
+		F2221BF11AF5F8D70035B8B9 /* h2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F2221BED1AF5F8D70035B8B9 /* h2.jpg */; };
+		F2221BF21AF5F8D70035B8B9 /* h3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F2221BEE1AF5F8D70035B8B9 /* h3.jpg */; };
+		F2221BF31AF5F8D70035B8B9 /* h4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F2221BEF1AF5F8D70035B8B9 /* h4.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +60,10 @@
 		F2221BDE1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GJAutoCycleScrollViewSampleTests.m; sourceTree = "<group>"; };
 		F2221BE91AF5D7AE0035B8B9 /* GJAutoCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJAutoCycleScrollView.h; sourceTree = "<group>"; };
 		F2221BEA1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJAutoCycleScrollView.m; sourceTree = "<group>"; };
+		F2221BEC1AF5F8D70035B8B9 /* h1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = h1.jpg; sourceTree = "<group>"; };
+		F2221BED1AF5F8D70035B8B9 /* h2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = h2.jpg; sourceTree = "<group>"; };
+		F2221BEE1AF5F8D70035B8B9 /* h3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = h3.jpg; sourceTree = "<group>"; };
+		F2221BEF1AF5F8D70035B8B9 /* h4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = h4.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +138,10 @@
 		F2221BBA1AF5D2E40035B8B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F2221BEC1AF5F8D70035B8B9 /* h1.jpg */,
+				F2221BED1AF5F8D70035B8B9 /* h2.jpg */,
+				F2221BEE1AF5F8D70035B8B9 /* h3.jpg */,
+				F2221BEF1AF5F8D70035B8B9 /* h4.jpg */,
 				F2221BBB1AF5D2E40035B8B9 /* GJAutoCycleScrollViewSample-Info.plist */,
 				F2221BBC1AF5D2E40035B8B9 /* InfoPlist.strings */,
 				F2221BBF1AF5D2E40035B8B9 /* main.m */,
@@ -242,8 +254,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2221BF11AF5F8D70035B8B9 /* h2.jpg in Resources */,
 				F2221BCC1AF5D2E40035B8B9 /* Images.xcassets in Resources */,
+				F2221BF21AF5F8D70035B8B9 /* h3.jpg in Resources */,
 				F2221BBE1AF5D2E40035B8B9 /* InfoPlist.strings in Resources */,
+				F2221BF31AF5F8D70035B8B9 /* h4.jpg in Resources */,
+				F2221BF01AF5F8D70035B8B9 /* h1.jpg in Resources */,
 				F2221BC71AF5D2E40035B8B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,6 +487,7 @@
 				F2221BE41AF5D2E40035B8B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F2221BE51AF5D2E40035B8B9 /* Build configuration list for PBXNativeTarget "GJAutoCycleScrollViewSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +496,7 @@
 				F2221BE71AF5D2E40035B8B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

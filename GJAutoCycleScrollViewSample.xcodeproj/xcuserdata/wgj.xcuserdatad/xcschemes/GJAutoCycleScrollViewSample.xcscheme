@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2221BAF1AF5D2E40035B8B9"
-               BuildableName = "GJAutoCycleScrollView.app"
+               BuildableName = "GJAutoCycleScrollViewSample.app"
                BlueprintName = "GJAutoCycleScrollViewSample"
                ReferencedContainer = "container:GJAutoCycleScrollViewSample.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2221BD01AF5D2E40035B8B9"
-               BuildableName = "GJAutoCycleScrollViewTests.xctest"
+               BuildableName = "GJAutoCycleScrollViewSampleTests.xctest"
                BlueprintName = "GJAutoCycleScrollViewSampleTests"
                ReferencedContainer = "container:GJAutoCycleScrollViewSample.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2221BAF1AF5D2E40035B8B9"
-            BuildableName = "GJAutoCycleScrollView.app"
+            BuildableName = "GJAutoCycleScrollViewSample.app"
             BlueprintName = "GJAutoCycleScrollViewSample"
             ReferencedContainer = "container:GJAutoCycleScrollViewSample.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2221BAF1AF5D2E40035B8B9"
-            BuildableName = "GJAutoCycleScrollView.app"
+            BuildableName = "GJAutoCycleScrollViewSample.app"
             BlueprintName = "GJAutoCycleScrollViewSample"
             ReferencedContainer = "container:GJAutoCycleScrollViewSample.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2221BAF1AF5D2E40035B8B9"
-            BuildableName = "GJAutoCycleScrollView.app"
+            BuildableName = "GJAutoCycleScrollViewSample.app"
             BlueprintName = "GJAutoCycleScrollViewSample"
             ReferencedContainer = "container:GJAutoCycleScrollViewSample.xcodeproj">
          </BuildableReference>
