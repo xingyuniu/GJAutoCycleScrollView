@@ -22,10 +22,13 @@
     _imageNames = @[@"yellow0", @"yellow1", @"yellow2", @"yellow3", @"yellow4", @"yellow5"];
     
     GJAutoCycleScrollView *scrollView = [[GJAutoCycleScrollView alloc] init];
-    scrollView.frame = CGRectMake(10, 100, 300, 200);
+    scrollView.frame = CGRectMake(10, 60, 300, 200);
     scrollView.dataSource = self;
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
+    
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 280, 320, 300) style:UITableViewStylePlain];
+    [self.view addSubview:tableView];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
