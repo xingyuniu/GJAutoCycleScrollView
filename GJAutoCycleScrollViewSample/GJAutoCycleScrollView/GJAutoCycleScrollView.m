@@ -9,6 +9,7 @@
 //  问题三:网络图片
 
 #import "GJAutoCycleScrollView.h"
+#import "UIImageView+WebCache.h"
 
 @interface GJImageItem : UICollectionViewCell
 @property (nonatomic, copy) NSString *imageUrl;
@@ -26,8 +27,15 @@
 
 - (void)setImageUrl:(NSString *)imageUrl
 {
+    if (!(imageUrl && imageUrl.length > 0)) {
+        return;
+    }
     _imageUrl = [imageUrl copy];
-    ((UIImageView *)self.backgroundView).image = [UIImage imageNamed:imageUrl];
+    if ([imageUrl hasPrefix:@"http"]) {
+        [((UIImageView *)self.backgroundView) sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:GJPlaceholderImageName]];
+    } else {
+        ((UIImageView *)self.backgroundView).image = [UIImage imageNamed:imageUrl];
+    }
 }
 
 @end

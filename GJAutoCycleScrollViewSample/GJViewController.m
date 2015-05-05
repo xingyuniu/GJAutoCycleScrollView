@@ -24,7 +24,12 @@
     _webView = webView;
     
 //    _imageNames = @[@"yellow0", @"yellow1", @"yellow2", @"yellow3", @"yellow4", @"yellow5"];
-    _imageNames = @[@"yellow0", @"yellow2"];
+    _imageNames = @[@"http://img.mukewang.com/553a16fa0001d50d07500442.jpg", @"http://img.mukewang.com/54bf403f0001ba9506000338.jpg", @"http://img.mukewang.com/5477ea610001494206000338.jpg", @"http://img.mukewang.com/550a33b00001738a06000338.jpg"];
+    
+    //    http://img.mukewang.com/553a16fa0001d50d07500442.jpg
+    //    http://img.mukewang.com/54bf403f0001ba9506000338.jpg
+    //    http://img.mukewang.com/5477ea610001494206000338.jpg
+    //    http://img.mukewang.com/550a33b00001738a06000338.jpg
     
     GJAutoCycleScrollView *scrollView = [[GJAutoCycleScrollView alloc] init];
     scrollView.frame = CGRectMake(10, 60, 300, 200);

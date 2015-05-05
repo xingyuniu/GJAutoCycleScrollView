@@ -5,6 +5,12 @@
 //  Created by imooc_gj on 15/5/3.
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //  自动循环滚动视图
+//  网络图片功能依赖SDWebImage，
+//  如不需要或者你的工程中已经有SDWebImage,可自行删除我提供的
+//  如果你的工程中还没有SDWebImage,建议你添加一个,非常好用
+
+// 如需要网络图片的占位图，填充宏内容即可
+#define GJPlaceholderImageName @""
 
 #import <UIKit/UIKit.h>
 
