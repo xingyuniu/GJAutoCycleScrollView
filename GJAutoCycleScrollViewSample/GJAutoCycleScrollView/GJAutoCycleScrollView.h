@@ -81,12 +81,6 @@
 @property (nonatomic, assign) BOOL autoScroll;
 
 /**
- *  是否显示分页
- *
- *  @param show YES 显示，NO 如果不显示，会从父视图移除
- */
-//- (void)showPageControl:(BOOL)show;
-/**
  *  刷新数据
  */
 - (void)reloadData;
