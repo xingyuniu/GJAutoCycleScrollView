@@ -21,7 +21,7 @@
 - (NSInteger)numberOfPagesInAutoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView;
 
 /**
- *  每页图片的图片名或者图片链接
+ *  每页图片的图片名(本地图片)或者图片链接(网络图片)
  *
  *  @param autoCycleScrollView autoCycleScrollView
  *  @param index               页索引
@@ -29,6 +29,17 @@
  *  @return 每页图片的图片名或者图片链接
  */
 - (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView imageUrlAtIndex:(NSInteger)index;
+
+@optional
+/**
+ *  图片标题(如需要图片标题，则实现该方法。如不实现该方法，则不会创建titleLabel)
+ *
+ *  @param autoCycleScrollView 这个没啥好说的
+ *  @param index               页索引
+ *
+ *  @return 图片对应的标题
+ */
+- (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView titleAtIndex:(NSInteger)index;
 
 @end
 
@@ -51,9 +62,15 @@
 @interface GJAutoCycleScrollView : UIView
 
 /**
- *  你可以自定义位置,默认在底部中间,默认显示,如不需要可自行隐藏
+ *  分页，你可以自定义位置大小,默认在底部中间; 默认显示,如不需要可自行隐藏
  */
 @property (nonatomic, weak, readonly) UIPageControl *pageControl;
+/**
+ *  标题，你可以自定义位置大小,默认在底部，半透明; 
+ *  只有当你实现了数据源方法autoCycleScrollView:titleAtIndex:才会创建,
+ *  如果有titleLabel，pageControl会被移动到右下角
+ */
+@property (nonatomic, weak, readonly) UILabel *titleLabel;
 /**
  *  自动滚动的时间间隔,默认为3秒
  */

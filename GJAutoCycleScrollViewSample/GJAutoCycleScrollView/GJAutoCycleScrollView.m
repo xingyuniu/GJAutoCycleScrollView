@@ -4,7 +4,9 @@
 //
 //  Created by imooc_gj on 15/5/3.
 //  Copyright (c) 2015年 devgj. All rights reserved.
-//
+//  问题一:如果只有一页，则不需要定时器，也不需要分页控制, 已解决
+//  问题二:根据dataCount的范围确定itemCount的范围
+//  问题三:网络图片
 
 #import "GJAutoCycleScrollView.h"
 
@@ -49,10 +51,9 @@ NSString * const itemID = @"itemID";
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _timeIntervalForAutoScroll = 3.0;
+        _timeIntervalForAutoScroll = 1.0;
         [self configureImageView];
         [self configurePageControl];
-        [self configureTimer];
     }
     return self;
 }
@@ -71,8 +72,16 @@ NSString * const itemID = @"itemID";
 
 - (void)configureTimer
 {
-    _timer = [NSTimer scheduledTimerWithTimeInterval:_timeIntervalForAutoScroll target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    if (!_timer) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:_timeIntervalForAutoScroll target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)deleteTimer
+{
+    [_timer invalidate];
+    _timer = nil;
 }
 
 - (void)configureImageView
@@ -105,7 +114,12 @@ NSString * const itemID = @"itemID";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     _dataCount = [_dataSource numberOfPagesInAutoCycleScrollView:self];
-    _itemCount = _dataCount * 100;
+#warning FIXME *100不科学，如果_dataCount过大，再*100结果太大了
+    if (_dataCount == 1) {
+        _itemCount = _dataCount;
+    } else {
+        _itemCount = _dataCount * 10;
+    }
     return _itemCount;
 }
 
@@ -164,8 +178,7 @@ NSString * const itemID = @"itemID";
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     if (newSuperview == nil) {
-        [_timer invalidate];
-        _timer = nil;
+        [self deleteTimer];
     }
 }
 
@@ -185,9 +198,9 @@ NSString * const itemID = @"itemID";
     NSInteger desPage = currentPage + 1;
     if (desPage == _itemCount) {
         [self scrollToMiddle];
+    } else {
+        [self scrollToItemAtIndex:desPage animated:YES];
     }
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:desPage inSection:0];
-    [_collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
 }
 
 - (void)setupInitLocation
@@ -195,13 +208,25 @@ NSString * const itemID = @"itemID";
     // 设置pageControl的页数
     _pageControl.numberOfPages = _dataCount;
     [_pageControl sizeToFit];
-    [self scrollToMiddle];
+    if (_dataCount > 1) {
+        _pageControl.hidden = NO;
+        [self configureTimer];
+        [self scrollToMiddle];
+    } else {
+        [self deleteTimer];
+        _pageControl.hidden = YES;
+    }
 }
 
 - (void)scrollToMiddle
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_itemCount * 0.5 inSection:0];
-    [_collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+    [self scrollToItemAtIndex:_itemCount * 0.5 animated:NO];
+}
+
+- (void)scrollToItemAtIndex:(NSInteger)index animated:(BOOL)animated
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [_collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
 }
 
 - (void)setDataSource:(id<GJAutoCycleScrollViewDataSource>)dataSource
