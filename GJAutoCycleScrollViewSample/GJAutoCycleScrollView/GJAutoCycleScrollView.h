@@ -72,12 +72,6 @@
  */
 @property (nonatomic, weak, readonly) UIPageControl *pageControl;
 /**
- *  标题，你可以自定义位置大小,默认在底部，半透明; 
- *  只有当你实现了数据源方法autoCycleScrollView:titleAtIndex:才会创建,
- *  如果有titleLabel，pageControl会被移动到右下角
- */
-@property (nonatomic, weak, readonly) UILabel *titleLabel;
-/**
  *  自动滚动的时间间隔,默认为3秒
  */
 @property (nonatomic, assign) CGFloat timeIntervalForAutoScroll;

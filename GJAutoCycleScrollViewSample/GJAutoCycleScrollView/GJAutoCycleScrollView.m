@@ -6,13 +6,22 @@
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //  问题一:如果只有一页，则不需要定时器，也不需要分页控制, 已解决
 //  问题二:根据dataCount的范围确定itemCount的范围
-//  问题三:网络图片
+//  问题三:网络图片，已解决
+//  问题四:是否需要自动滚动
+//  问题五:添加titleLabel，已解决
 
 #import "GJAutoCycleScrollView.h"
 #import "UIImageView+WebCache.h"
 
 @interface GJImageItem : UICollectionViewCell
 @property (nonatomic, copy) NSString *imageUrl;
+@property (nonatomic, copy) NSString *title;
+/**
+ *  标题,默认在底部，半透明;可自行定制
+ *  只有当你实现了数据源方法autoCycleScrollView:titleAtIndex:才会创建,
+ *  如果有titleLabel，pageControl会被移动到右下角
+ */
+@property (nonatomic, weak) UILabel *titleLabel;
 @end
 
 @implementation GJImageItem
@@ -27,17 +36,53 @@
 
 - (void)setImageUrl:(NSString *)imageUrl
 {
+    UIImageView *imageView = (UIImageView *)self.backgroundView;
     if (!(imageUrl && imageUrl.length > 0)) {
+        if ([GJPlaceholderImageName length] > 0) {
+            imageView.image = [UIImage imageNamed:GJPlaceholderImageName];
+        }
         return;
     }
     _imageUrl = [imageUrl copy];
     if ([imageUrl hasPrefix:@"http"]) {
-        [((UIImageView *)self.backgroundView) sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:GJPlaceholderImageName]];
+        if ([GJPlaceholderImageName length] > 0) {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:GJPlaceholderImageName]];
+        } else {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+        }
     } else {
-        ((UIImageView *)self.backgroundView).image = [UIImage imageNamed:imageUrl];
+        imageView.image = [UIImage imageNamed:imageUrl];
     }
 }
 
+- (void)setTitle:(NSString *)title
+{
+    _title = [title copy];
+    [self configureTitleLabel];
+    _titleLabel.text = [NSString stringWithFormat:@" %@", title];
+}
+
+
+- (void)configureTitleLabel
+{
+    if (!_titleLabel) {
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = [UIFont systemFontOfSize:13];
+        [self addSubview:titleLabel];
+        _titleLabel = titleLabel;
+    }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    if (_titleLabel) {
+        CGFloat titleLabelH = 30;
+        _titleLabel.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - titleLabelH, CGRectGetWidth(self.bounds), titleLabelH);
+    }
+}
 @end
 
 NSString * const itemID = @"itemID";
@@ -78,6 +123,7 @@ NSString * const itemID = @"itemID";
     _pageControl = pageControll;
 }
 
+
 - (void)configureTimer
 {
     if (!_timer) {
@@ -101,6 +147,7 @@ NSString * const itemID = @"itemID";
     
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
     [collectionView registerClass:[GJImageItem class] forCellWithReuseIdentifier:itemID];
+    collectionView.backgroundColor = [UIColor clearColor];
     collectionView.pagingEnabled = YES;
     collectionView.showsHorizontalScrollIndicator = NO;
     collectionView.showsVerticalScrollIndicator = NO;
@@ -116,7 +163,18 @@ NSString * const itemID = @"itemID";
     CGSize size = self.bounds.size;
     _collectionView.frame = self.bounds;
     _flowLayout.itemSize = size;
-    _pageControl.center = CGPointMake(size.width * 0.5, size.height - 15);
+    
+    CGSize pageControlSize = [_pageControl sizeForNumberOfPages:_dataCount];
+    if ([_dataSource respondsToSelector:@selector(autoCycleScrollView:titleAtIndex:)]) {
+        CGFloat w = pageControlSize.width;
+        CGFloat h = pageControlSize.height;
+        if (w > 0) {
+            _pageControl.frame = CGRectMake(size.width - 8 - w, size.height - 15 - h * 0.5, w, h);
+        }
+    } else {
+        _pageControl.center = CGPointMake(size.width * 0.5, size.height - 15);
+        _pageControl.bounds = (CGRect){CGPointZero, pageControlSize};
+    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -136,6 +194,9 @@ NSString * const itemID = @"itemID";
     GJImageItem *item = [collectionView dequeueReusableCellWithReuseIdentifier:itemID forIndexPath:indexPath];
     NSInteger index = indexPath.item % _dataCount;
     item.imageUrl = [_dataSource autoCycleScrollView:self imageUrlAtIndex:index];
+    if ([_dataSource respondsToSelector:@selector(autoCycleScrollView:titleAtIndex:)]) {
+        item.title = [_dataSource autoCycleScrollView:self titleAtIndex:index];
+    }
     return item;
 }
 
@@ -215,7 +276,7 @@ NSString * const itemID = @"itemID";
 {
     // 设置pageControl的页数
     _pageControl.numberOfPages = _dataCount;
-    [_pageControl sizeToFit];
+    [self setNeedsLayout];
     if (_dataCount > 1) {
         _pageControl.hidden = NO;
         [self configureTimer];

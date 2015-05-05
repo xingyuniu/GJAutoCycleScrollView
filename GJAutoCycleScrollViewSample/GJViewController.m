@@ -11,6 +11,7 @@
 
 @interface GJViewController () <GJAutoCycleScrollViewDataSource, GJAutoCycleScrollViewDelegate>
 @property (nonatomic, strong) NSArray *imageNames;
+@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) UIWebView *webView;
 @end
 
@@ -30,12 +31,13 @@
     //    http://img.mukewang.com/54bf403f0001ba9506000338.jpg
     //    http://img.mukewang.com/5477ea610001494206000338.jpg
     //    http://img.mukewang.com/550a33b00001738a06000338.jpg
+    _titles = @[@"这个title真的好长啊1", @"这个title真的好长啊2", @"这个title真的好长啊3", @"这个title真的好长啊4"];
     
     GJAutoCycleScrollView *scrollView = [[GJAutoCycleScrollView alloc] init];
-    scrollView.frame = CGRectMake(10, 60, 300, 200);
+    [self.view addSubview:scrollView];
     scrollView.dataSource = self;
     scrollView.delegate = self;
-    [self.view addSubview:scrollView];
+    scrollView.frame = CGRectMake(10, 60, 300, 200);
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 280, 320, 300) style:UITableViewStylePlain];
     [self.view addSubview:tableView];
@@ -64,7 +66,7 @@
 
 - (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView titleAtIndex:(NSInteger)index
 {
-    return @"hah";
+    return _titles[index];
 }
 
 - (void)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView didSelectPageAtIndex:(NSInteger)index
