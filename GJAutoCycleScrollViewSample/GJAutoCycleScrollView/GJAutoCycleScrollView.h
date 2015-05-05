@@ -75,6 +75,10 @@
  *  自动滚动的时间间隔,默认为3秒
  */
 @property (nonatomic, assign) CGFloat timeIntervalForAutoScroll;
+/**
+ *  是否需要自动滚动 YES:需要 NO:不需要 默认为YES
+ */
+@property (nonatomic, assign) BOOL autoScroll;
 
 /**
  *  是否显示分页

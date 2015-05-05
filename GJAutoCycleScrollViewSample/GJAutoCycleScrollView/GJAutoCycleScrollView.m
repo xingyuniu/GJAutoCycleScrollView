@@ -7,8 +7,9 @@
 //  问题一:如果只有一页，则不需要定时器，也不需要分页控制, 已解决
 //  问题二:根据dataCount的范围确定itemCount的范围
 //  问题三:网络图片，已解决
-//  问题四:是否需要自动滚动
+//  问题四:是否需要自动滚动, 解决
 //  问题五:添加titleLabel，已解决
+//  问题六:图片的显示模式
 
 #import "GJAutoCycleScrollView.h"
 #import "UIImageView+WebCache.h"
@@ -105,6 +106,7 @@ NSString * const itemID = @"itemID";
     self = [super initWithFrame:frame];
     if (self) {
         _timeIntervalForAutoScroll = 1.0;
+        _autoScroll = YES;
         [self configureImageView];
         [self configurePageControl];
     }
@@ -136,6 +138,16 @@ NSString * const itemID = @"itemID";
 {
     [_timer invalidate];
     _timer = nil;
+}
+
+- (void)setAutoScroll:(BOOL)autoScroll
+{
+    _autoScroll = autoScroll;
+    if (!_autoScroll) {
+        [self deleteTimer];
+    } else {
+        [self configureTimer];
+    }
 }
 
 - (void)configureImageView
@@ -279,7 +291,9 @@ NSString * const itemID = @"itemID";
     [self setNeedsLayout];
     if (_dataCount > 1) {
         _pageControl.hidden = NO;
-        [self configureTimer];
+        if (_autoScroll) {
+            [self configureTimer];
+        }
         [self scrollToMiddle];
     } else {
         [self deleteTimer];
