@@ -10,6 +10,8 @@
 //  问题四:是否需要自动滚动, 解决
 //  问题五:添加titleLabel，已解决
 //  问题六:图片的显示模式
+//  问题七:title个数小于总数会崩溃
+//  问题八:图片滚动的时候，会出现前一张图片的残影, 已解决，图片的显示模式导致的
 
 #import "GJAutoCycleScrollView.h"
 #import "UIImageView+WebCache.h"
@@ -23,6 +25,7 @@
  *  如果有titleLabel，pageControl会被移动到右下角
  */
 @property (nonatomic, weak) UILabel *titleLabel;
+@property (nonatomic, weak) UIImageView *imageView;
 @end
 
 @implementation GJImageItem
@@ -30,29 +33,32 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundView = [[UIImageView alloc] init];
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
+        self.backgroundView = imageView;
+        _imageView = imageView;
     }
     return self;
 }
 
 - (void)setImageUrl:(NSString *)imageUrl
 {
-    UIImageView *imageView = (UIImageView *)self.backgroundView;
     if (!(imageUrl && imageUrl.length > 0)) {
         if ([GJPlaceholderImageName length] > 0) {
-            imageView.image = [UIImage imageNamed:GJPlaceholderImageName];
+            _imageView.image = [UIImage imageNamed:GJPlaceholderImageName];
         }
         return;
     }
     _imageUrl = [imageUrl copy];
     if ([imageUrl hasPrefix:@"http"]) {
         if ([GJPlaceholderImageName length] > 0) {
-            [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:GJPlaceholderImageName]];
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:GJPlaceholderImageName]];
         } else {
-            [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
         }
     } else {
-        imageView.image = [UIImage imageNamed:imageUrl];
+        _imageView.image = [UIImage imageNamed:imageUrl];
     }
 }
 
@@ -83,6 +89,7 @@
         CGFloat titleLabelH = 30;
         _titleLabel.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - titleLabelH, CGRectGetWidth(self.bounds), titleLabelH);
     }
+    _imageView.frame = self.bounds;
 }
 @end
 
@@ -105,7 +112,7 @@ NSString * const itemID = @"itemID";
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _timeIntervalForAutoScroll = 1.0;
+        _timeIntervalForAutoScroll = 2.0;
         _autoScroll = YES;
         [self configureImageView];
         [self configurePageControl];

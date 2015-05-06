@@ -24,23 +24,24 @@
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
     _webView = webView;
     
-//    _imageNames = @[@"yellow0", @"yellow1", @"yellow2", @"yellow3", @"yellow4", @"yellow5"];
-    _imageNames = @[@"http://img.mukewang.com/553a16fa0001d50d07500442.jpg", @"http://img.mukewang.com/54bf403f0001ba9506000338.jpg", @"http://img.mukewang.com/5477ea610001494206000338.jpg", @"http://img.mukewang.com/550a33b00001738a06000338.jpg"];
+    _imageNames = @[@"yellow0", @"yellow1", @"yellow2", @"yellow3", @"yellow4", @"yellow5"];
+//    _imageNames = @[@"http://img.mukewang.com/553a16fa0001d50d07500442.jpg", @"http://img.mukewang.com/54bf403f0001ba9506000338.jpg", @"http://img.mukewang.com/5477ea610001494206000338.jpg", @"http://img.mukewang.com/550a33b00001738a06000338.jpg"];
     
     //    http://img.mukewang.com/553a16fa0001d50d07500442.jpg
     //    http://img.mukewang.com/54bf403f0001ba9506000338.jpg
     //    http://img.mukewang.com/5477ea610001494206000338.jpg
     //    http://img.mukewang.com/550a33b00001738a06000338.jpg
-    _titles = @[@"这个title真的好长啊1", @"这个title真的好长啊2", @"这个title真的好长啊3", @"这个title真的好长啊4"];
+    _titles = @[@"这个title真的好长啊1", @"这个title真的好长啊2", @"这个title真的好长啊3", @"这个title真的好长啊4", @"这个title真的好长啊1"];
     
     GJAutoCycleScrollView *scrollView = [[GJAutoCycleScrollView alloc] init];
     [self.view addSubview:scrollView];
+//    scrollView.autoScroll = NO;
     scrollView.dataSource = self;
     scrollView.delegate = self;
     scrollView.frame = CGRectMake(10, 60, 300, 200);
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 280, 320, 300) style:UITableViewStylePlain];
-    [self.view addSubview:tableView];
+//    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 280, 320, 300) style:UITableViewStylePlain];
+//    [self.view addSubview:tableView];
 }
 
 - (void)call:(id)sender
@@ -61,6 +62,7 @@
 
 - (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView imageUrlAtIndex:(NSInteger)index
 {
+    NSLog(@"%d", index);
     return _imageNames[index];
 }
 
