@@ -2,14 +2,16 @@
 //  GJAutoCycleScrollView.h
 //  GJAutoCycleScrollViewSample
 //
-//  Created by imooc_gj on 15/5/3.
+//  Created by devgj on 15/5/3.
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //  自动循环滚动视图
 //  网络图片功能依赖SDWebImage，
 //  如不需要或者你的工程中已经有SDWebImage,可自行删除我提供的
 //  如果你的工程中还没有SDWebImage,建议你添加一个,非常好用
+//  注意:如果使用了自动循环滚动功能，一定要在控制器的viewWillDisappear:里面调用本类的invalidateTimer方法，详情请看demo
+//  关于这一点如果你有什么好的建议和想法，可以告诉我,感激不尽，我的邮箱 devwgj@gmail.com
 
-// 如需要网络图片的占位图，填充宏内容即可
+//  如需要网络图片的占位图，填充宏内容即可
 #define GJPlaceholderImageName @""
 
 #import <UIKit/UIKit.h>
@@ -79,6 +81,16 @@
  *  是否需要自动滚动 YES:需要 NO:不需要 默认为YES
  */
 @property (nonatomic, assign) BOOL autoScroll;
+
+/**
+ *  使定时器失效(在控制器的viewWillDisappear:方法里面调用)
+ */
+- (void)invalidateTimer;
+
+/**
+ *  使定时器生效(在控制器的viewWillAppear:方法里面调用)
+ */
+- (void)fireTimer;
 
 /**
  *  刷新数据

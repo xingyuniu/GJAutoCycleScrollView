@@ -2,16 +2,17 @@
 //  GJAutoCycleScrollView.m
 //  GJAutoCycleScrollViewSample
 //
-//  Created by imooc_gj on 15/5/3.
+//  Created by devgj on 15/5/3.
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //  问题一:如果只有一页，则不需要定时器，也不需要分页控制, 已解决
-//  问题二:根据dataCount的范围确定itemCount的范围
+//  问题二:根据dataCount的范围确定itemCount的范围 解决
 //  问题三:网络图片，已解决
 //  问题四:是否需要自动滚动, 解决
 //  问题五:添加titleLabel，已解决
-//  问题六:图片的显示模式
-//  问题七:title个数小于总数会崩溃
+//  问题六:提供图片的显示模式接口，暂时不提供
+//  问题七:title个数小于总数会崩溃，暂时不管
 //  问题八:图片滚动的时候，会出现前一张图片的残影, 已解决，图片的显示模式导致的
+//  问题九:页面销毁时偶尔崩溃 在控制器里面停止定时器
 
 #import "GJAutoCycleScrollView.h"
 #import "UIImageView+WebCache.h"
@@ -19,11 +20,6 @@
 @interface GJImageItem : UICollectionViewCell
 @property (nonatomic, copy) NSString *imageUrl;
 @property (nonatomic, copy) NSString *title;
-/**
- *  标题,默认在底部，半透明;可自行定制
- *  只有当你实现了数据源方法autoCycleScrollView:titleAtIndex:才会创建,
- *  如果有titleLabel，pageControl会被移动到右下角
- */
 @property (nonatomic, weak) UILabel *titleLabel;
 @property (nonatomic, weak) UIImageView *imageView;
 @end
@@ -112,7 +108,7 @@ NSString * const itemID = @"itemID";
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _timeIntervalForAutoScroll = 2.0;
+        _timeIntervalForAutoScroll = 0.5;
         _autoScroll = YES;
         [self configureImageView];
         [self configurePageControl];
@@ -122,7 +118,7 @@ NSString * const itemID = @"itemID";
 
 - (void)dealloc
 {
-    NSLog(@"挂了");
+    NSLog(@"GJAutoCycleScrollView 销毁了");
 }
 
 - (void)configurePageControl
@@ -141,17 +137,22 @@ NSString * const itemID = @"itemID";
     }
 }
 
-- (void)deleteTimer
+- (void)invalidateTimer
 {
     [_timer invalidate];
     _timer = nil;
+}
+
+- (void)fireTimer
+{
+    [self configureTimer];
 }
 
 - (void)setAutoScroll:(BOOL)autoScroll
 {
     _autoScroll = autoScroll;
     if (!_autoScroll) {
-        [self deleteTimer];
+        [self invalidateTimer];
     } else {
         [self configureTimer];
     }
@@ -202,8 +203,11 @@ NSString * const itemID = @"itemID";
 #warning FIXME *100不科学，如果_dataCount过大，再*100结果太大了
     if (_dataCount == 1) {
         _itemCount = _dataCount;
-    } else {
+    } else if (_dataCount > 10) {
         _itemCount = _dataCount * 10;
+    } else {
+        _itemCount = _dataCount * (12 - _dataCount) * 10;
+        
     }
     return _itemCount;
 }
@@ -263,11 +267,17 @@ NSString * const itemID = @"itemID";
     [_timer setFireDate:[NSDate distantFuture]];
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview
+#warning 不能在这里停止定时器，视图消失时会崩溃
+//- (void)willMoveToSuperview:(UIView *)newSuperview
+//{
+//    if (newSuperview == nil) {
+//        [self deleteTimer];
+//    }
+//}
+
+- (void)willRemoveSubview:(UIView *)subview
 {
-    if (newSuperview == nil) {
-        [self deleteTimer];
-    }
+    NSLog(@"willRemoveSubview");
 }
 
 - (void)reloadData
@@ -303,7 +313,7 @@ NSString * const itemID = @"itemID";
         }
         [self scrollToMiddle];
     } else {
-        [self deleteTimer];
+        [self invalidateTimer];
         _pageControl.hidden = YES;
     }
 }
