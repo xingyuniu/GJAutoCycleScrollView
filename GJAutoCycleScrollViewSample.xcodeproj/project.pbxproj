@@ -14,8 +14,6 @@
 		F2221BBE1AF5D2E40035B8B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2221BBC1AF5D2E40035B8B9 /* InfoPlist.strings */; };
 		F2221BC01AF5D2E40035B8B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2221BBF1AF5D2E40035B8B9 /* main.m */; };
 		F2221BC41AF5D2E40035B8B9 /* GJAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2221BC31AF5D2E40035B8B9 /* GJAppDelegate.m */; };
-		F2221BC71AF5D2E40035B8B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2221BC51AF5D2E40035B8B9 /* Main.storyboard */; };
-		F2221BCA1AF5D2E40035B8B9 /* GJViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2221BC91AF5D2E40035B8B9 /* GJViewController.m */; };
 		F2221BCC1AF5D2E40035B8B9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2221BCB1AF5D2E40035B8B9 /* Images.xcassets */; };
 		F2221BD31AF5D2E40035B8B9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2221BD21AF5D2E40035B8B9 /* XCTest.framework */; };
 		F2221BD41AF5D2E40035B8B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2221BB31AF5D2E40035B8B9 /* Foundation.framework */; };
@@ -66,9 +64,6 @@
 		F2221BC11AF5D2E40035B8B9 /* GJAutoCycleScrollViewSample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GJAutoCycleScrollViewSample-Prefix.pch"; sourceTree = "<group>"; };
 		F2221BC21AF5D2E40035B8B9 /* GJAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GJAppDelegate.h; sourceTree = "<group>"; };
 		F2221BC31AF5D2E40035B8B9 /* GJAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GJAppDelegate.m; sourceTree = "<group>"; };
-		F2221BC61AF5D2E40035B8B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F2221BC81AF5D2E40035B8B9 /* GJViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GJViewController.h; sourceTree = "<group>"; };
-		F2221BC91AF5D2E40035B8B9 /* GJViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GJViewController.m; sourceTree = "<group>"; };
 		F2221BCB1AF5D2E40035B8B9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F2221BD11AF5D2E40035B8B9 /* GJAutoCycleScrollViewSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GJAutoCycleScrollViewSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2221BD21AF5D2E40035B8B9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -177,9 +172,6 @@
 				F2221BE81AF5D7870035B8B9 /* GJAutoCycleScrollView */,
 				F2221BC21AF5D2E40035B8B9 /* GJAppDelegate.h */,
 				F2221BC31AF5D2E40035B8B9 /* GJAppDelegate.m */,
-				F2221BC51AF5D2E40035B8B9 /* Main.storyboard */,
-				F2221BC81AF5D2E40035B8B9 /* GJViewController.h */,
-				F2221BC91AF5D2E40035B8B9 /* GJViewController.m */,
 				F2221BCB1AF5D2E40035B8B9 /* Images.xcassets */,
 				F2221BBA1AF5D2E40035B8B9 /* Supporting Files */,
 			);
@@ -357,7 +349,6 @@
 			files = (
 				F2221BCC1AF5D2E40035B8B9 /* Images.xcassets in Resources */,
 				F2221BBE1AF5D2E40035B8B9 /* InfoPlist.strings in Resources */,
-				F2221BC71AF5D2E40035B8B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +376,6 @@
 				F25C4FD41AF8619600B23464 /* SDWebImageCompat.m in Sources */,
 				F25C4FDB1AF8619600B23464 /* UIImage+GIF.m in Sources */,
 				F25C4FD91AF8619600B23464 /* SDWebImagePrefetcher.m in Sources */,
-				F2221BCA1AF5D2E40035B8B9 /* GJViewController.m in Sources */,
 				F2221BEB1AF5D7AE0035B8B9 /* GJAutoCycleScrollView.m in Sources */,
 				F25C4FDD1AF8619600B23464 /* UIImage+WebP.m in Sources */,
 				F25C4FDF1AF8619600B23464 /* UIImageView+WebCache.m in Sources */,
@@ -427,14 +417,6 @@
 				F2221BBD1AF5D2E40035B8B9 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		F2221BC51AF5D2E40035B8B9 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F2221BC61AF5D2E40035B8B9 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		F2221BDB1AF5D2E40035B8B9 /* InfoPlist.strings */ = {

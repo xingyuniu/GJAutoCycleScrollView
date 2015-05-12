@@ -2,7 +2,7 @@
 //  GJThirdViewController.m
 //  GJAutoCycleScrollViewSample
 //
-//  Created by imooc_gj on 15/5/7.
+//  Created by devgj on 15/5/7.
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //
 
@@ -14,40 +14,21 @@
 
 @implementation GJThirdViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.view.backgroundColor = [UIColor grayColor];
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor grayColor];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 44)];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"点击页面任意位置返回第二页";
+    [self.view addSubview:label];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

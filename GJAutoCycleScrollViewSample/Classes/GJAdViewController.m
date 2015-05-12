@@ -2,7 +2,7 @@
 //  GJAdViewController.m
 //  GJAutoCycleScrollViewSample
 //
-//  Created by imooc_gj on 15/5/6.
+//  Created by devgj on 15/5/6.
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //
 
@@ -11,80 +11,119 @@
 #import "GJThirdViewController.h"
 
 @interface GJAdViewController ()<GJAutoCycleScrollViewDataSource, GJAutoCycleScrollViewDelegate>
+/**
+ *  图片名称或者图片链接
+ */
 @property (nonatomic, strong) NSArray *imageNames;
+/**
+ *  图片标题
+ */
 @property (nonatomic, strong) NSArray *titles;
-@property (nonatomic, weak) GJAutoCycleScrollView *scrollView;
+/**
+ *  Banner
+ */
+@property (nonatomic, weak) GJAutoCycleScrollView *adScrollView;
 @end
 
 @implementation GJAdViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.view.backgroundColor = [UIColor yellowColor];
-    }
-    return self;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [_scrollView invalidateTimer];
-}
+#pragma mark - Life Cycle
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [_scrollView fireTimer];
+    
+    // 当页面出现的时候，启用定时器。当然如果你不需要自动滚动功能，则不需要写这一句
+    [self.adScrollView fireTimer];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _imageNames = @[@"yellow0", @"yellow1", @"yellow2", @"yellow3", @"yellow4", @"yellow5"];
-    //    _imageNames = @[@"http://img.mukewang.com/553a16fa0001d50d07500442.jpg", @"http://img.mukewang.com/54bf403f0001ba9506000338.jpg", @"http://img.mukewang.com/5477ea610001494206000338.jpg", @"http://img.mukewang.com/550a33b00001738a06000338.jpg"];
+    self.view.backgroundColor = [UIColor yellowColor];
     
-    //    http://img.mukewang.com/553a16fa0001d50d07500442.jpg
-    //    http://img.mukewang.com/54bf403f0001ba9506000338.jpg
-    //    http://img.mukewang.com/5477ea610001494206000338.jpg
-    //    http://img.mukewang.com/550a33b00001738a06000338.jpg
-    _titles = @[@"这个title真的好长啊1", @"这个title真的好长啊2", @"这个title真的好长啊3", @"这个title真的好长啊4", @"这个title真的好长啊5",@"这个title真的好长啊6"];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    GJAutoCycleScrollView *scrollView = [[GJAutoCycleScrollView alloc] init];
-    [self.view addSubview:scrollView];
-//        scrollView.autoScroll = NO;
-    scrollView.dataSource = self;
-    scrollView.delegate = self;
-    scrollView.frame = CGRectMake(10, 60, 300, 200);
-    _scrollView = scrollView;
+    // 添加GJAutoCycleScrollView
+    [self.view addSubview:self.adScrollView];
+    
+    // 添加提示文字
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 280, self.view.bounds.size.width, 120)];
+    label.numberOfLines = 0;
+    label.textColor = [UIColor blackColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"点击图片进入第三页.\n\n点击黄色背景回到第一页，此时控制台会打印'GJAutoCycleScrollView 销毁了', 用于测试是否内存泄漏.";
+    [self.view addSubview:label];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    // 当页面消失的时候，停用定时器，优化性能。当然如果你不需要自动滚动功能，则不需要写这一句
+    [self.adScrollView invalidateTimer];
+}
+
+#pragma mark - GJAutoCycleScrollViewDataSource
+
+- (NSInteger)numberOfPagesInAutoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView
+{
+    return self.imageNames.count;
+}
+
+- (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView imageUrlAtIndex:(NSInteger)index
+{
+    return self.imageNames[index];
+}
+
+- (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView titleAtIndex:(NSInteger)index
+{
+    return self.titles[index];
+}
+
+#pragma mark - GJAutoCycleScrollViewDelegate
+
+- (void)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView didSelectPageAtIndex:(NSInteger)index
+{
+    GJThirdViewController *third = [[GJThirdViewController alloc] init];
+    [self presentViewController:third animated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-- (NSInteger)numberOfPagesInAutoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView
+
+#pragma mark getter & setter
+
+- (NSArray *)imageNames
 {
-    return _imageNames.count;
+    if (_imageNames == nil) {
+        _imageNames = @[@"yellow0",
+                        @"http://d.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=209c55050b23dd54357eaf3ab060d8bb/728da9773912b31b5bdee4488418367adab4e125.jpg",
+                        @"yellow2",
+                        @"http://g.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=797df575ba99a9012f3853647cfc611e/37d12f2eb9389b50298fc9338735e5dde7116e5a.jpg"];
+    }
+    return _imageNames;
 }
 
-- (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView imageUrlAtIndex:(NSInteger)index
+- (NSArray *)titles
 {
-//    NSLog(@"%d", index);
-    return _imageNames[index];
+    if (_titles == nil) {
+        _titles = @[@"第一页，本地图片", @"第二页，网络图片", @"第三页，本地图片", @"第四页，网络图片"];
+    }
+    return _titles;
 }
 
-- (NSString *)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView titleAtIndex:(NSInteger)index
+- (GJAutoCycleScrollView *)adScrollView
 {
-    return _titles[index];
-}
-
-- (void)autoCycleScrollView:(GJAutoCycleScrollView *)autoCycleScrollView didSelectPageAtIndex:(NSInteger)index
-{
-    NSLog(@"%ld", (long)index);
-    GJThirdViewController *third = [[GJThirdViewController alloc] init];
-    [self presentViewController:third animated:YES completion:nil];
+    if (_adScrollView == nil) {
+        GJAutoCycleScrollView *adScrollView = [[GJAutoCycleScrollView alloc] init];
+        //        scrollView.autoScroll = NO; //是否需要自动滚动。默认为自动滚动
+        adScrollView.dataSource = self;
+        adScrollView.delegate = self;
+        adScrollView.frame = CGRectMake(10, 60, 300, 200);
+        _adScrollView = adScrollView;
+    }
+    return _adScrollView;
 }
 
 @end

@@ -4,24 +4,18 @@
 //
 //  Created by devgj on 15/5/3.
 //  Copyright (c) 2015年 devgj. All rights reserved.
-//  问题一:如果只有一页，则不需要定时器，也不需要分页控制, 已解决
-//  问题二:根据dataCount的范围确定itemCount的范围 解决
-//  问题三:网络图片，已解决
-//  问题四:是否需要自动滚动, 解决
-//  问题五:添加titleLabel，已解决
-//  问题六:提供图片的显示模式接口，暂时不提供
-//  问题七:title个数小于总数会崩溃，暂时不管
-//  问题八:图片滚动的时候，会出现前一张图片的残影, 已解决，图片的显示模式导致的
-//  问题九:页面销毁时偶尔崩溃 在控制器里面停止定时器
 
 #import "GJAutoCycleScrollView.h"
 #import "UIImageView+WebCache.h"
 
 @interface GJImageItem : UICollectionViewCell
+
 @property (nonatomic, copy) NSString *imageUrl;
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, weak) UILabel *titleLabel;
 @property (nonatomic, weak) UIImageView *imageView;
+
+/*** 标题 */
+@property (nonatomic, weak) UILabel *titleLabel;
 @end
 
 @implementation GJImageItem
@@ -108,7 +102,7 @@ NSString * const itemID = @"itemID";
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _timeIntervalForAutoScroll = 0.5;
+        _timeIntervalForAutoScroll = 1.0;
         _autoScroll = YES;
         [self configureImageView];
         [self configurePageControl];
@@ -200,7 +194,6 @@ NSString * const itemID = @"itemID";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     _dataCount = [_dataSource numberOfPagesInAutoCycleScrollView:self];
-#warning FIXME *100不科学，如果_dataCount过大，再*100结果太大了
     if (_dataCount == 1) {
         _itemCount = _dataCount;
     } else if (_dataCount > 10) {
@@ -267,19 +260,6 @@ NSString * const itemID = @"itemID";
     [_timer setFireDate:[NSDate distantFuture]];
 }
 
-#warning 不能在这里停止定时器，视图消失时会崩溃
-//- (void)willMoveToSuperview:(UIView *)newSuperview
-//{
-//    if (newSuperview == nil) {
-//        [self deleteTimer];
-//    }
-//}
-
-- (void)willRemoveSubview:(UIView *)subview
-{
-    NSLog(@"willRemoveSubview");
-}
-
 - (void)reloadData
 {
     [_collectionView reloadData];
@@ -303,7 +283,6 @@ NSString * const itemID = @"itemID";
 
 - (void)setupInitLocation
 {
-    // 设置pageControl的页数
     _pageControl.numberOfPages = _dataCount;
     [self setNeedsLayout];
     if (_dataCount > 1) {

@@ -2,7 +2,7 @@
 //  GJHomeViewController.m
 //  GJAutoCycleScrollViewSample
 //
-//  Created by imooc_gj on 15/5/6.
+//  Created by devgj on 15/5/6.
 //  Copyright (c) 2015年 devgj. All rights reserved.
 //
 
@@ -15,18 +15,16 @@
 
 @implementation GJHomeViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.view.backgroundColor = [UIColor purpleColor];
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor purpleColor];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 44)];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"点击页面任意位置进入第二页";
+    [self.view addSubview:label];
     
 }
 
